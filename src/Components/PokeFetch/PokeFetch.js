@@ -9,10 +9,32 @@ class PokeFetch extends Component {
       pokeInfo: '',
       pokeSprite: '',
       pokeName: '',
+      time: 10
     }
   }
 
+  tick() {
+    this.setState({
+      time: this.state.time -1 
+    }) 
+  }
+
+  componentDidMount() {
+    setInterval(() => this.tick(), 1000)
+  }
+
+componentWillUnmount() {
+  clearInterval(() => (this.componentDidMount))
+}
+
   fetchPokemon() {
+
+    if (this.state.time < 0 ) {
+      this.componentWillUnmount()
+    }
+    this.setState({
+      time: 10
+    })
     let min = Math.ceil(1);
     let max = Math.floor(152);
     let pokeNum = Math.floor(Math.random() * (max - min) + min);
@@ -27,16 +49,33 @@ class PokeFetch extends Component {
         })
       })
       .catch((err) => console.log(err))
+
+      this.componentDidMount()
+
+  }
+
+  timeUp() {
+    if (this.state.time >= 0) {
+      return this.state.time
+    }
+  }
+  
+  pokeShadow() {
+    if (this.state.time > 0) {
+      return true
+    } else {
+      return false
+    }
   }
 
   render() {
     return (
       <div className={'wrapper'}>
         <button className={'start'} onClick={() => this.fetchPokemon()}>Start!</button>
-        <h1 className={'timer'} >Timer Display</h1>
+        <h1 className={'timer'} >{this.timeUp()}</h1>
         <div className={'pokeWrap'}>
-          <img className={'pokeImg'} src={this.state.pokeSprite} />
-          <h1 className={'pokeName'}>{this.state.pokeName}</h1>
+          <img className={'pokeImg'} {...this.pokeShadow() } src={this.state.pokeSprite} />
+          <h1 className={'pokeName'} {...this.pokeShadow() } >{this.state.pokeName}</h1>
         </div>
       </div>
     )
