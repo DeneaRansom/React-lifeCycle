@@ -60,13 +60,10 @@ componentWillUnmount() {
     }
   }
   
-  pokeShadow() {
-    if (this.state.time > 0) {
-      return true
-    } else {
-      return false
-    }
-  }
+  // pokeShadow() {
+  //   if (this.state.time > 0) {
+  //     return true}
+  // }
 
   render() {
     return (
@@ -74,8 +71,8 @@ componentWillUnmount() {
         <button className={'start'} onClick={() => this.fetchPokemon()}>Start!</button>
         <h1 className={'timer'} >{this.timeUp()}</h1>
         <div className={'pokeWrap'}>
-          <img className={'pokeImg'} {...this.pokeShadow() } src={this.state.pokeSprite} />
-          <h1 className={'pokeName'} {...this.pokeShadow() } >{this.state.pokeName}</h1>
+          <img className={'pokeImg'}  src={this.state.pokeSprite} />
+          <h1 className={'pokeName'}  >{this.state.pokeName}</h1>
         </div>
       </div>
     )
